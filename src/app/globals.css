@@ -1,0 +1,110 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #0a0a0a;
+
+  --color-brand-black: #0a0a0a;
+  --color-brand-charcoal: #171717;
+  --color-brand-charcoal-2: #232323;
+  --color-brand-red: #cf1428;
+  --color-brand-red-dark: #a10f1f;
+  --color-brand-red-light: #e94b5b;
+  --color-brand-cream: #faf9f7;
+  --color-brand-gray-50: #f7f7f6;
+  --color-brand-gray-200: #e5e3e0;
+  --color-brand-gray-400: #a3a19d;
+  --color-brand-gray-600: #6b6966;
+  --color-brand-gray-800: #2c2b29;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-inter);
+  --font-heading: var(--font-sora);
+
+  --color-brand-black: var(--color-brand-black);
+  --color-brand-charcoal: var(--color-brand-charcoal);
+  --color-brand-charcoal-2: var(--color-brand-charcoal-2);
+  --color-brand-red: var(--color-brand-red);
+  --color-brand-red-dark: var(--color-brand-red-dark);
+  --color-brand-red-light: var(--color-brand-red-light);
+  --color-brand-cream: var(--color-brand-cream);
+  --color-brand-gray-50: var(--color-brand-gray-50);
+  --color-brand-gray-200: var(--color-brand-gray-200);
+  --color-brand-gray-400: var(--color-brand-gray-400);
+  --color-brand-gray-600: var(--color-brand-gray-600);
+  --color-brand-gray-800: var(--color-brand-gray-800);
+}
+
+* {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading), var(--font-sans), sans-serif;
+}
+
+/* Visible, high-contrast focus states for keyboard navigation */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--color-brand-red);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.container-lux {
+  max-width: 80rem;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+}
+
+@media (min-width: 640px) {
+  .container-lux {
+    padding-inline: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container-lux {
+    padding-inline: 2rem;
+  }
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+/* Honeypot field: hidden from sighted users and kept out of the tab order,
+   but still present in the DOM for bots that don't render CSS. */
+.hp-field {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  left: -9999px;
+}

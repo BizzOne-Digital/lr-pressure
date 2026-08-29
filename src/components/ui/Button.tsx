@@ -1,0 +1,67 @@
+import Link from "next/link";
+import { type ReactNode } from "react";
+import clsx from "clsx";
+
+type Variant = "primary" | "secondary" | "outline" | "ghost";
+type Size = "md" | "lg" | "sm";
+
+const base =
+  "inline-flex items-center justify-center gap-2 font-semibold tracking-wide transition-all duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-red disabled:opacity-50 disabled:pointer-events-none rounded-sm";
+
+const variants: Record<Variant, string> = {
+  primary:
+    "bg-brand-red text-white hover:bg-brand-red-dark shadow-[0_8px_30px_-8px_rgba(207,20,40,0.6)] hover:shadow-[0_8px_30px_-4px_rgba(207,20,40,0.75)]",
+  secondary:
+    "bg-brand-black text-white hover:bg-brand-charcoal-2",
+  outline:
+    "border-2 border-brand-black text-brand-black hover:bg-brand-black hover:text-white",
+  ghost: "text-brand-black hover:text-brand-red",
+};
+
+const sizes: Record<Size, string> = {
+  sm: "px-4 py-2 text-sm",
+  md: "px-6 py-3.5 text-sm sm:text-base",
+  lg: "px-8 py-4 text-base sm:text-lg",
+};
+
+interface ButtonProps {
+  children: ReactNode;
+  variant?: Variant;
+  size?: Size;
+  href?: string;
+  onClick?: () => void;
+  type?: "button" | "submit";
+  disabled?: boolean;
+  className?: string;
+  icon?: ReactNode;
+}
+
+export function Button({
+  children,
+  variant = "primary",
+  size = "md",
+  href,
+  onClick,
+  type = "button",
+  disabled,
+  className,
+  icon,
+}: ButtonProps) {
+  const classes = clsx(base, variants[variant], sizes[size], className);
+
+  if (href) {
+    return (
+      <Link href={href} className={classes}>
+        {children}
+        {icon}
+      </Link>
+    );
+  }
+
+  return (
+    <button type={type} onClick={onClick} disabled={disabled} className={classes}>
+      {children}
+      {icon}
+    </button>
+  );
+}
