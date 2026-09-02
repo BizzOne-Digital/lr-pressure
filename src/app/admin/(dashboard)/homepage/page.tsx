@@ -22,7 +22,7 @@ interface HomeContent {
   whyChooseUs: { heading: string; content: string; imageMediaId?: string; points: string[] };
   process: { title: string; description: string; icon: string; order: number }[];
   beforeAfter: { heading: string; description: string };
-  serviceArea: { heading: string; description: string; areas: string[] };
+  serviceArea: { heading: string; description: string };
   cta: {
     heading: string;
     description: string;
@@ -345,13 +345,12 @@ export default function HomepageEditorPage() {
           <Field label="Description" value={content.beforeAfter.description} textarea onChange={(v) => setContent({ ...content, beforeAfter: { ...content.beforeAfter, description: v } })} />
         </Card>
 
-        <Card title="Service Area">
+        <Card
+          title="Service Area"
+          description="The actual list of towns/areas served is managed on the Site Settings page (Service Areas & Google Reviews section) so it can also be reused in the footer."
+        >
           <Field label="Heading" value={content.serviceArea.heading} onChange={(v) => setContent({ ...content, serviceArea: { ...content.serviceArea, heading: v } })} />
           <Field label="Description" value={content.serviceArea.description} textarea onChange={(v) => setContent({ ...content, serviceArea: { ...content.serviceArea, description: v } })} />
-          <div>
-            <label className="mb-1.5 block text-sm font-semibold text-brand-black">Areas Served</label>
-            <ListEditor items={content.serviceArea.areas} onChange={(v) => setContent({ ...content, serviceArea: { ...content.serviceArea, areas: v } })} />
-          </div>
         </Card>
 
         <Card title="Final CTA Section">

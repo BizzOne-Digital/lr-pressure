@@ -5,7 +5,7 @@ import { Save, Loader2, ChevronDown } from "lucide-react";
 import { useToast } from "@/components/admin/ToastProvider";
 
 interface PageIntroPanelProps {
-  pageKey: "services" | "team";
+  pageKey: "services" | "team" | "service-plans" | "reviews" | "gallery" | "projects";
   title: string;
 }
 

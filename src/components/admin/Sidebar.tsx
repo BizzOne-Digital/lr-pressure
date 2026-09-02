@@ -19,6 +19,8 @@ import {
   Settings,
   Navigation as NavigationIcon,
   ExternalLink,
+  DollarSign,
+  FolderKanban,
 } from "lucide-react";
 
 const NAV = [
@@ -27,6 +29,8 @@ const NAV = [
   { label: "Homepage", href: "/admin/homepage", icon: Home },
   { label: "About Page", href: "/admin/about", icon: Info },
   { label: "Services", href: "/admin/services", icon: Wrench },
+  { label: "Service Plans", href: "/admin/service-plans", icon: DollarSign },
+  { label: "Projects", href: "/admin/projects", icon: FolderKanban },
   { label: "Gallery", href: "/admin/gallery", icon: Images },
   { label: "Testimonials", href: "/admin/testimonials", icon: MessageSquareQuote },
   { label: "Team", href: "/admin/team", icon: Users },

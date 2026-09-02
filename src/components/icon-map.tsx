@@ -25,6 +25,7 @@ import {
   Waves,
   Leaf,
   Sun,
+  Gauge,
   type LucideIcon,
 } from "lucide-react";
 
@@ -55,6 +56,7 @@ export const ICON_MAP: Record<string, LucideIcon> = {
   Waves,
   Leaf,
   Sun,
+  Gauge,
 };
 
 export const ICON_NAMES = Object.keys(ICON_MAP);

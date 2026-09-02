@@ -3,6 +3,8 @@ import { connectToDatabase } from "./db";
 import { SiteSettings, type ISiteSettings } from "@/models/SiteSettings";
 import { Navigation, type INavigation } from "@/models/Navigation";
 import { Service, type IService } from "@/models/Service";
+import { ServicePlan, type IServicePlan } from "@/models/ServicePlan";
+import { Project, type IProject } from "@/models/Project";
 import { TeamMember, type ITeamMember } from "@/models/TeamMember";
 import { GalleryItem, type IGalleryItem } from "@/models/GalleryItem";
 import { Testimonial, type ITestimonial } from "@/models/Testimonial";
@@ -14,6 +16,10 @@ import {
   type ServicesPageContent,
   type ContactPageContent,
   type TeamPageContent,
+  type ServicePlansPageContent,
+  type ReviewsPageContent,
+  type GalleryPageContent,
+  type ProjectsPageContent,
 } from "./content-schemas";
 
 type PageContentMap = {
@@ -22,6 +28,10 @@ type PageContentMap = {
   services: ServicesPageContent;
   contact: ContactPageContent;
   team: TeamPageContent;
+  "service-plans": ServicePlansPageContent;
+  reviews: ReviewsPageContent;
+  gallery: GalleryPageContent;
+  projects: ProjectsPageContent;
 };
 
 /**
@@ -60,11 +70,15 @@ export async function getNavigation(): Promise<INavigation["items"]> {
       .sort((a, b) => a.order - b.order);
   }
   return [
-    { label: "Home", href: "/", order: 0, visible: true },
-    { label: "About", href: "/about", order: 1, visible: true },
-    { label: "Services", href: "/services", order: 2, visible: true },
-    { label: "Our Team", href: "/team", order: 3, visible: true },
-    { label: "Contact", href: "/contact", order: 4, visible: true },
+    { label: "Home", href: "/", order: 0, visible: true, showInHeader: true },
+    { label: "About", href: "/about", order: 1, visible: true, showInHeader: true },
+    { label: "Services", href: "/services", order: 2, visible: true, showInHeader: true },
+    { label: "Service Plans", href: "/service-plans", order: 3, visible: true, showInHeader: false },
+    { label: "Gallery", href: "/gallery", order: 4, visible: true, showInHeader: true },
+    { label: "Our Team", href: "/team", order: 5, visible: true, showInHeader: false },
+    { label: "Reviews", href: "/reviews", order: 6, visible: true, showInHeader: false },
+    { label: "Projects", href: "/projects", order: 7, visible: true, showInHeader: false },
+    { label: "Contact", href: "/contact", order: 8, visible: true, showInHeader: true },
   ];
 }
 
@@ -84,6 +98,32 @@ export async function getServiceBySlug(slug: string): Promise<IService | null> {
   await connectToDatabase();
   const service = await Service.findOne({ slug, active: true }).lean();
   return (service as unknown as IService) ?? null;
+}
+
+export async function getServicePlans({
+  onlyActive = true,
+}: { onlyActive?: boolean } = {}): Promise<IServicePlan[]> {
+  await connectToDatabase();
+  const query: Record<string, unknown> = {};
+  if (onlyActive) query.active = true;
+  const plans = await ServicePlan.find(query).sort({ order: 1, createdAt: 1 }).lean();
+  return plans as unknown as IServicePlan[];
+}
+
+export async function getProjects({
+  onlyActive = true,
+}: { onlyActive?: boolean } = {}): Promise<IProject[]> {
+  await connectToDatabase();
+  const query: Record<string, unknown> = {};
+  if (onlyActive) query.active = true;
+  const projects = await Project.find(query).sort({ order: 1, createdAt: 1 }).lean();
+  return projects as unknown as IProject[];
+}
+
+export async function getProjectBySlug(slug: string): Promise<IProject | null> {
+  await connectToDatabase();
+  const project = await Project.findOne({ slug, active: true }).lean();
+  return (project as unknown as IProject) ?? null;
 }
 
 export async function getTeamMembers(): Promise<ITeamMember[]> {

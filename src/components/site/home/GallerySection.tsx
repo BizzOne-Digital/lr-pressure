@@ -2,12 +2,26 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { mediaUrl } from "@/lib/media-url";
 import { GALLERY_CATEGORIES } from "@/lib/constants";
-import type { IGalleryItem } from "@/models/GalleryItem";
 
-export function GallerySection({ items }: { items: IGalleryItem[] }) {
+// Plain, JSON-serializable shape only — this is a Client Component, so it
+// cannot receive raw Mongoose/lean() documents as props (their ObjectId and
+// Date fields aren't plain objects). The Server Component that renders this
+// must map query results into this shape first; see toGalleryCardItem() in
+// src/lib/data.ts.
+export interface GalleryCardItem {
+  _id: string;
+  title: string;
+  caption: string;
+  category: string;
+  imageMediaId?: string;
+}
+
+export function GallerySection({ items }: { items: GalleryCardItem[] }) {
   const [active, setActive] = useState<string>("All");
 
   if (!items.length) return null;
@@ -39,10 +53,10 @@ export function GallerySection({ items }: { items: IGalleryItem[] }) {
 
         <div className="mt-10 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
           {filtered.map((item) => {
-            const img = mediaUrl(item.imageMediaId?.toString()) || "/image-fallback.jpg";
+            const img = mediaUrl(item.imageMediaId) || "/image-fallback.jpg";
             return (
               <div
-                key={item._id.toString()}
+                key={item._id}
                 className="group relative aspect-square overflow-hidden rounded-lg bg-brand-gray-50"
               >
                 <Image
@@ -60,6 +74,15 @@ export function GallerySection({ items }: { items: IGalleryItem[] }) {
               </div>
             );
           })}
+        </div>
+
+        <div className="mt-10 text-center">
+          <Link
+            href="/gallery"
+            className="inline-flex items-center gap-2 text-sm font-bold text-brand-red hover:underline"
+          >
+            View Full Gallery <ArrowRight className="h-4 w-4" />
+          </Link>
         </div>
       </div>
     </section>

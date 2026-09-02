@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ArrowUp, ArrowDown, Trash2, Plus, Save, Loader2, Eye, EyeOff } from "lucide-react";
+import { ArrowUp, ArrowDown, Trash2, Plus, Save, Loader2, Eye, EyeOff, PanelTop } from "lucide-react";
 import { Skeleton } from "@/components/admin/Skeleton";
 import { useToast } from "@/components/admin/ToastProvider";
 
@@ -10,6 +10,7 @@ interface NavItem {
   href: string;
   order: number;
   visible: boolean;
+  showInHeader: boolean;
 }
 
 export default function NavigationPage() {
@@ -44,7 +45,10 @@ export default function NavigationPage() {
   }
 
   function addItem() {
-    setItems([...items, { label: "New Link", href: "/", order: items.length, visible: true }]);
+    setItems([
+      ...items,
+      { label: "New Link", href: "/", order: items.length, visible: true, showInHeader: true },
+    ]);
   }
 
   async function handleSave() {
@@ -84,7 +88,9 @@ export default function NavigationPage() {
         <div>
           <h1 className="font-heading text-2xl font-bold text-brand-black">Navigation</h1>
           <p className="mt-1 text-sm text-brand-gray-600">
-            Control the menu links shown in the header and footer.
+            Control the menu links shown in the header and footer. Use the eye icon to hide a
+            link everywhere, or the panel icon to keep it in the footer only (for a minimal
+            header menu).
           </p>
         </div>
         <button
@@ -136,10 +142,24 @@ export default function NavigationPage() {
             <button
               onClick={() => update(i, { visible: !item.visible })}
               className="rounded p-1.5 text-brand-gray-500 hover:text-brand-red"
-              aria-label={item.visible ? "Hide" : "Show"}
-              title={item.visible ? "Visible" : "Hidden"}
+              aria-label={item.visible ? "Hide everywhere" : "Show"}
+              title={item.visible ? "Visible (click to hide everywhere)" : "Hidden everywhere"}
             >
               {item.visible ? <Eye className="h-4 w-4" /> : <EyeOff className="h-4 w-4" />}
+            </button>
+            <button
+              onClick={() => update(i, { showInHeader: !item.showInHeader })}
+              className={`rounded p-1.5 hover:text-brand-red ${
+                item.showInHeader ? "text-brand-red" : "text-brand-gray-400"
+              }`}
+              aria-label={item.showInHeader ? "Remove from header (keep in footer)" : "Show in header"}
+              title={
+                item.showInHeader
+                  ? "In header menu (click to keep footer-only)"
+                  : "Footer-only (click to add to header)"
+              }
+            >
+              <PanelTop className="h-4 w-4" />
             </button>
             <button
               onClick={() => remove(i)}

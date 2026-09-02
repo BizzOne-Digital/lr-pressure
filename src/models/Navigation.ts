@@ -5,6 +5,9 @@ export interface INavItem {
   href: string;
   order: number;
   visible: boolean;
+  // Distinct from `visible`: an item can stay in the footer's full link list
+  // while being left out of the minimal top header menu.
+  showInHeader: boolean;
 }
 
 export interface INavigation {
@@ -20,6 +23,7 @@ const NavItemSchema = new Schema<INavItem>(
     href: { type: String, required: true },
     order: { type: Number, required: true, default: 0 },
     visible: { type: Boolean, required: true, default: true },
+    showInHeader: { type: Boolean, required: true, default: true },
   },
   { _id: false }
 );

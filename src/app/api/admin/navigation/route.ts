@@ -10,11 +10,15 @@ async function getOrCreateNavigation() {
   if (!nav) {
     nav = await Navigation.create({
       items: [
-        { label: "Home", href: "/", order: 0, visible: true },
-        { label: "About", href: "/about", order: 1, visible: true },
-        { label: "Services", href: "/services", order: 2, visible: true },
-        { label: "Our Team", href: "/team", order: 3, visible: true },
-        { label: "Contact", href: "/contact", order: 4, visible: true },
+        { label: "Home", href: "/", order: 0, visible: true, showInHeader: true },
+        { label: "About", href: "/about", order: 1, visible: true, showInHeader: true },
+        { label: "Services", href: "/services", order: 2, visible: true, showInHeader: true },
+        { label: "Service Plans", href: "/service-plans", order: 3, visible: true, showInHeader: false },
+        { label: "Gallery", href: "/gallery", order: 4, visible: true, showInHeader: true },
+        { label: "Our Team", href: "/team", order: 5, visible: true, showInHeader: false },
+        { label: "Reviews", href: "/reviews", order: 6, visible: true, showInHeader: false },
+        { label: "Projects", href: "/projects", order: 7, visible: true, showInHeader: false },
+        { label: "Contact", href: "/contact", order: 8, visible: true, showInHeader: true },
       ],
     });
   }

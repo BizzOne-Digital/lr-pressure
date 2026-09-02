@@ -1,6 +1,16 @@
 import mongoose, { Schema, models, model } from "mongoose";
 
-export const PAGE_KEYS = ["home", "about", "services", "contact", "team"] as const;
+export const PAGE_KEYS = [
+  "home",
+  "about",
+  "services",
+  "contact",
+  "team",
+  "service-plans",
+  "reviews",
+  "gallery",
+  "projects",
+] as const;
 export type PageKey = (typeof PAGE_KEYS)[number];
 
 export interface ISEO {

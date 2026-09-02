@@ -106,6 +106,14 @@ async function main() {
   const serviceConcrete = await uploadLocalImage("service-concrete.jpg", "Concrete surface cleaning");
   const concreteAction = await uploadLocalImage("concrete-action.jpg", "High pressure concrete cleaning");
   const serviceWindow = await uploadLocalImage("service-window.jpg", "Window cleaning close up");
+  const windowDetailSiding = await uploadLocalImage(
+    "window-detail-siding.jpg",
+    "Close-up of clean exterior windows and screens"
+  );
+  const christmasLightsHouse = await uploadLocalImage(
+    "christmas-lights-house.jpg",
+    "House exterior decorated with holiday string lights"
+  );
 
   // ------------------------------------------------------------ Settings --
   let settings = await SiteSettings.findOne();
@@ -138,14 +146,18 @@ async function main() {
   if (!existingNav) {
     await Navigation.create({
       items: [
-        { label: "Home", href: "/", order: 0, visible: true },
-        { label: "About", href: "/about", order: 1, visible: true },
-        { label: "Services", href: "/services", order: 2, visible: true },
-        { label: "Our Team", href: "/team", order: 3, visible: true },
-        { label: "Contact", href: "/contact", order: 4, visible: true },
+        { label: "Home", href: "/", order: 0, visible: true, showInHeader: true },
+        { label: "About", href: "/about", order: 1, visible: true, showInHeader: true },
+        { label: "Services", href: "/services", order: 2, visible: true, showInHeader: true },
+        { label: "Service Plans", href: "/service-plans", order: 3, visible: true, showInHeader: false },
+        { label: "Gallery", href: "/gallery", order: 4, visible: true, showInHeader: true },
+        { label: "Our Team", href: "/team", order: 5, visible: true, showInHeader: false },
+        { label: "Reviews", href: "/reviews", order: 6, visible: true, showInHeader: false },
+        { label: "Projects", href: "/projects", order: 7, visible: true, showInHeader: false },
+        { label: "Contact", href: "/contact", order: 8, visible: true, showInHeader: true },
       ],
     });
-    console.log("Seeded navigation.");
+    console.log("Seeded navigation (minimal header menu; full list still in the footer).");
   } else {
     console.log("Navigation already exists, skipping.");
   }
@@ -157,9 +169,10 @@ async function main() {
       {
         name: "House Washing",
         slug: "house-washing",
-        shortDescription: "Soft-wash exterior cleaning that lifts dirt, mildew, and grime.",
+        shortDescription:
+          "Soft-wash exterior cleaning that lifts dirt, mildew, and algae without harming your siding.",
         description:
-          "Our house washing service uses a careful soft-wash technique to safely remove dirt, algae, and mildew from your siding without damaging your home's exterior. The result is a noticeably brighter, cleaner-looking property.",
+          "House washing removes the dirt, algae, mildew, and general grime that build up on siding, trim, and other exterior surfaces over time. We use a soft-wash approach — lower water pressure paired with an appropriate cleaning solution — rather than blasting your home with high pressure, since aggressive pressure can force water behind siding or damage paint and caulking.\n\nBefore we start, we walk the property to check the siding material and note anything that needs extra care or protection, like plants, outdoor furniture, or light fixtures. We then apply the cleaning solution, let it work on the buildup, and rinse everything down for an even, streak-free result, finishing with a walkthrough so you can see the difference for yourself.\n\nA clean exterior makes a real difference in curb appeal, and regular washing also helps prevent the kind of long-term buildup that can quietly wear down paint and siding over the years.",
         imageMediaId: heroHouseWash,
         icon: "Home",
         featured: true,
@@ -169,9 +182,10 @@ async function main() {
       {
         name: "Driveway Cleaning",
         slug: "driveway-cleaning",
-        shortDescription: "Restore your driveway's original look by lifting stains and buildup.",
+        shortDescription:
+          "Pressure washing that lifts oil stains, tire marks, and years of buildup from your driveway.",
         description:
-          "Oil stains, tire marks, and years of buildup can leave a driveway looking tired. Our pressure washing process restores concrete and asphalt driveways to a clean, like-new appearance.",
+          "Driveways take a beating — oil drips, tire marks, dirt, and organic growth all build up on concrete and asphalt over time, and ordinary rinsing doesn't touch it. Our driveway cleaning service uses professional pressure washing equipment, sized to the surface, to break up and lift that buildup without damaging the material underneath.\n\nWe start by looking at the driveway's condition and material to choose the right pressure and technique, then work section by section with a surface cleaner for even, streak-free results — no more blotchy patches from an uneven manual pass. Stubborn stains get targeted extra attention before a final rinse.\n\nThe result is a driveway that looks close to new again, and a cleaner surface is also easier to keep that way, since dirt and algae have less to grip onto once the buildup is gone.",
         imageMediaId: driveway,
         icon: "Car",
         featured: true,
@@ -181,9 +195,9 @@ async function main() {
       {
         name: "Window Cleaning",
         slug: "window-cleaning",
-        shortDescription: "Streak-free exterior window cleaning for a brighter home.",
+        shortDescription: "Streak-free exterior window cleaning for a brighter, better-looking home.",
         description:
-          "Clean windows make a real difference in how your property looks and feels. We carefully clean exterior window surfaces and frames, removing dirt and grime for a clear, streak-free finish.",
+          "Exterior window cleaning removes the dirt, water spots, and grime that dull your view and your home's overall appearance. We clean the glass, frames, and sills on the outside of your windows, using tools and techniques suited to your window type to get a clear, streak-free finish.\n\nWe start with a quick walk-around to see what we're working with, protect anything nearby that needs it, then clean each window methodically before a final check to make sure nothing was missed.\n\nClean windows brighten up the whole exterior of a home and are one of the fastest, most noticeable improvements you can make to curb appeal.",
         imageMediaId: serviceWindow,
         icon: "AppWindow",
         featured: true,
@@ -193,9 +207,9 @@ async function main() {
       {
         name: "Roof Cleaning",
         slug: "roof-cleaning",
-        shortDescription: "Low-pressure roof washing that safely removes stains and streaks.",
+        shortDescription: "Low-pressure roof washing that safely lifts algae stains and streaks.",
         description:
-          "Dark streaks and stains on a roof are often caused by algae and organic buildup. We use a low-pressure, roof-safe cleaning approach to remove staining and help protect your roof's appearance.",
+          "Dark streaks and stains on a roof are usually algae, moss, or organic buildup rather than dirt alone, and they only get worse over time if left untreated. We use a low-pressure, roof-safe washing method rather than high-pressure equipment, since high pressure can lift or damage shingles and shorten a roof's lifespan.\n\nWe check the roof type and condition first, then apply an appropriate cleaning solution to break down staining and buildup, letting it do the work rather than relying on pressure — followed by a careful rinse.\n\nBeyond the visual improvement, removing algae and moss buildup helps protect the roofing material itself and can help prevent the kind of moisture retention that leads to bigger problems down the road.",
         imageMediaId: serviceRoof,
         icon: "Layers",
         featured: true,
@@ -205,9 +219,10 @@ async function main() {
       {
         name: "Exterior Surface Cleaning",
         slug: "exterior-surface-cleaning",
-        shortDescription: "Comprehensive cleaning for siding, walkways, and exterior surfaces.",
+        shortDescription:
+          "Comprehensive cleaning for siding, fencing, and other exterior surfaces around your property.",
         description:
-          "From siding to walkways and everything in between, our exterior surface cleaning service is tailored to the specific materials and needs of your property.",
+          "Not every exterior surface fits into a single category — siding, fencing, outdoor furniture, dumpster pads, and other exterior surfaces all collect dirt and grime differently. Our exterior surface cleaning service is a flexible option for the surfaces around your property that need attention but don't fall neatly under our other named services.\n\nWe assess the specific material and condition of each surface and choose a cleaning method and pressure level appropriate to it, so delicate materials aren't over-pressured and tougher materials get the attention they need.\n\nIf you're not sure which service fits what you need cleaned, contact us and describe the surface — we're happy to advise on the right approach.",
         imageMediaId: concreteAction,
         icon: "SprayCan",
         featured: false,
@@ -217,9 +232,9 @@ async function main() {
       {
         name: "Concrete Cleaning",
         slug: "concrete-cleaning",
-        shortDescription: "Deep cleaning for patios, sidewalks, and concrete surfaces.",
+        shortDescription: "Deep cleaning that restores patios, sidewalks, and other concrete surfaces.",
         description:
-          "Concrete surfaces collect dirt, mold, and stains over time. Our concrete cleaning service uses professional-grade equipment to restore a clean, uniform appearance.",
+          "Concrete is porous, which means dirt, mold, algae, and stains work their way into the surface over time rather than just sitting on top of it. Our concrete cleaning service uses professional-grade pressure washing equipment and, where needed, cleaning solutions to lift buildup out of the surface rather than just rinsing the top layer.\n\nWe clean methodically with a surface cleaner for even coverage across sidewalks, patios, and other concrete areas, avoiding the striped or blotchy look that comes from an uneven manual pass, and give extra attention to stained or heavily soiled spots.\n\nThe result is a uniform, restored appearance — and concrete that's easier to keep looking clean going forward.",
         imageMediaId: serviceConcrete,
         icon: "Waves",
         featured: false,
@@ -229,17 +244,65 @@ async function main() {
       {
         name: "Patio / Walkway Cleaning",
         slug: "patio-walkway-cleaning",
-        shortDescription: "Refresh outdoor living spaces and walkways for guests and family.",
+        shortDescription: "Refresh outdoor living spaces and walkways for family, guests, and everyday use.",
         description:
-          "Patios and walkways see heavy foot traffic and weather exposure. We clean these surfaces thoroughly so your outdoor spaces look their best year-round.",
+          "Patios and walkways see constant foot traffic and weather exposure, which means dirt, algae, and grime build up faster than on less-used surfaces. We clean these areas thoroughly, using a pressure and method suited to the paving material — whether that's concrete, pavers, brick, or stone — so your outdoor living spaces look their best.\n\nWe pay attention to the joints and edges where dirt and moss tend to collect, not just the open surface area, for a more complete clean rather than a quick surface pass.\n\nWell-maintained patios and walkways make outdoor spaces more inviting year-round, and cleaner surfaces are also less slippery, since algae and moss buildup can create a slip hazard over time.",
         imageMediaId: concreteAction,
         icon: "Fence",
         featured: false,
         order: 6,
         active: true,
       },
+      {
+        name: "Interior Window Cleaning",
+        slug: "interior-window-cleaning",
+        shortDescription: "Streak-free cleaning for the inside of your windows, to match the outside.",
+        description:
+          "Exterior window cleaning only shows half the picture — smudges, dust, and hard-water spots on the inside of the glass are just as noticeable from indoors. Our interior window cleaning service covers the glass, frames, and sills throughout your home's interior for a matching, truly streak-free finish on both sides.\n\nWe take care to protect furniture, floors, and window treatments while we work, and finish with a check of each window before moving on, so nothing gets missed.\n\nPairing interior and exterior window cleaning gives you the clearest possible view and the most natural light throughout your home.",
+        imageMediaId: serviceWindow,
+        icon: "AppWindow",
+        featured: false,
+        order: 7,
+        active: true,
+      },
+      {
+        name: "Screen Cleaning",
+        slug: "screen-cleaning",
+        shortDescription: "Removing built-up dust, pollen, and grime from window screens.",
+        description:
+          "Window screens collect dust, pollen, and grime that regular window cleaning doesn't reach, and over time that buildup can noticeably dull the view through them — even when the glass itself is spotless. Our screen cleaning service removes each screen, cleans it thoroughly, and reinstalls it so it looks as clear as the freshly cleaned window behind it.\n\nWe inspect screens before cleaning to note any existing damage, clean them carefully to avoid stretching or tearing the mesh, and do a final check once they're back in place.\n\nClean screens let more light and air through and go a long way toward making freshly washed windows look their best.",
+        imageMediaId: windowDetailSiding,
+        icon: "Droplets",
+        featured: false,
+        order: 8,
+        active: true,
+      },
+      {
+        name: "Christmas Light Installation",
+        slug: "christmas-light-installation",
+        shortDescription: "Professional holiday light installation and takedown, without the ladder.",
+        description:
+          "Putting up holiday lighting means ladder work, tangled strands, and figuring out how to secure everything safely to your roofline, gutters, or trees — and then doing it all again in reverse to take it down. We handle the full installation and takedown so you can enjoy the season without the hassle or the risk of climbing around your own roofline.\n\nWe talk through what you have in mind for your property, install the lighting securely so it holds up through winter weather, and return after the season to take everything down and put it away.\n\nContact us to discuss your property, your lighting plan, and what you'd like installed — we'll take it from there.",
+        imageMediaId: christmasLightsHouse,
+        icon: "PartyPopper",
+        featured: false,
+        order: 9,
+        active: true,
+      },
+      {
+        name: "Pressure Washing",
+        slug: "pressure-washing",
+        shortDescription: "General-purpose pressure washing for pool decks, fences, pavers, and more.",
+        description:
+          "Beyond driveways, siding, and roofs, plenty of surfaces around a property benefit from a professional pressure wash — pool decks, retaining walls, fences, brick and stone surfaces, curbs, and paver patios all collect dirt, algae, and grime over time. Our pressure washing service covers these broader hardscape and surface cleaning needs with equipment and pressure levels matched to each material.\n\nWe assess the surface first — different materials call for different pressure levels and techniques, and using the wrong amount of pressure can damage softer materials like wood fencing or aging pavers — then clean methodically for even, thorough coverage, with extra attention to stained or heavily soiled areas.\n\nIf you have a surface around your property that doesn't fit neatly into our other services, get in touch and describe what needs cleaning — pressure washing is a flexible option for exactly that kind of job.",
+        imageMediaId: driveway,
+        icon: "Gauge",
+        featured: false,
+        order: 10,
+        active: true,
+      },
     ]);
-    console.log("Seeded 7 services.");
+    console.log("Seeded 11 services.");
   } else {
     console.log("Services already exist, skipping.");
   }
@@ -424,6 +487,16 @@ async function main() {
     heading: "Meet Our Team",
     intro: "The people behind every job we do.",
   }, { title: "Our Team | LR Pressure Washing", metaDescription: "Meet the LR Pressure Washing team." });
+
+  await upsertPage("gallery", {
+    heading: "Our Work",
+    intro: "A look at recent projects across our service area.",
+  }, { title: "Gallery | LR Pressure Washing", metaDescription: "Browse photos of recent LR Pressure Washing projects." });
+
+  await upsertPage("projects", {
+    heading: "Featured Projects",
+    intro: "A closer look at select jobs, from start to finish.",
+  }, { title: "Projects | LR Pressure Washing", metaDescription: "Featured pressure washing and exterior cleaning projects completed by LR Pressure Washing." });
 
   console.log("\nSeed complete.");
   await mongoose.disconnect();

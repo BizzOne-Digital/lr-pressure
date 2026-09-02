@@ -5,6 +5,8 @@ export { Media } from "./Media";
 export { SiteSettings } from "./SiteSettings";
 export { Navigation } from "./Navigation";
 export { Service } from "./Service";
+export { ServicePlan } from "./ServicePlan";
+export { Project } from "./Project";
 export { TeamMember } from "./TeamMember";
 export { GalleryItem, GALLERY_CATEGORIES } from "./GalleryItem";
 export type { GalleryCategory } from "./GalleryItem";

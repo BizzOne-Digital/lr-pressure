@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { Menu, X, Phone } from "lucide-react";
+import { Menu, X, Phone, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { mediaUrl } from "@/lib/media-url";
 import Image from "next/image";
@@ -10,6 +10,12 @@ import Image from "next/image";
 interface NavItem {
   label: string;
   href: string;
+  showInHeader?: boolean;
+}
+
+interface ServiceLink {
+  name: string;
+  slug: string;
 }
 
 interface HeaderProps {
@@ -19,6 +25,7 @@ interface HeaderProps {
   primaryCtaUrl: string;
   navItems: NavItem[];
   logoMediaId?: string;
+  serviceLinks?: ServiceLink[];
 }
 
 export function Header({
@@ -28,11 +35,18 @@ export function Header({
   primaryCtaUrl,
   navItems,
   logoMediaId,
+  serviceLinks = [],
 }: HeaderProps) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [servicesOpen, setServicesOpen] = useState(false);
+  const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
   const logoSrc = mediaUrl(logoMediaId);
   const telHref = `tel:${phone.replace(/[^\d+]/g, "")}`;
+  // Keep the header itself minimal — items marked showInHeader: false (set
+  // via the admin Navigation page) stay fully linkable from the footer,
+  // they just don't clutter the top bar.
+  const headerNavItems = navItems.filter((item) => item.showInHeader !== false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -75,15 +89,53 @@ export function Header({
         </Link>
 
         <nav className="hidden items-center gap-8 lg:flex" aria-label="Primary">
-          {navItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="text-sm font-semibold uppercase tracking-wide text-white/85 transition-colors hover:text-brand-red"
-            >
-              {item.label}
-            </Link>
-          ))}
+          {headerNavItems.map((item) =>
+            item.href === "/services" && serviceLinks.length > 0 ? (
+              <div
+                key={item.href}
+                className="relative"
+                onMouseEnter={() => setServicesOpen(true)}
+                onMouseLeave={() => setServicesOpen(false)}
+              >
+                <Link
+                  href={item.href}
+                  className="flex items-center gap-1 text-sm font-semibold uppercase tracking-wide text-white/85 transition-colors hover:text-brand-red"
+                >
+                  {item.label}
+                  <ChevronDown className="h-3.5 w-3.5" aria-hidden="true" />
+                </Link>
+                {servicesOpen && (
+                  <div className="absolute left-1/2 top-full w-64 -translate-x-1/2 pt-3">
+                    <div className="overflow-hidden rounded-lg bg-white shadow-xl shadow-black/20">
+                      {serviceLinks.map((s) => (
+                        <Link
+                          key={s.slug}
+                          href={`/services/${s.slug}`}
+                          className="block px-4 py-2.5 text-sm font-semibold text-brand-black hover:bg-brand-gray-50 hover:text-brand-red"
+                        >
+                          {s.name}
+                        </Link>
+                      ))}
+                      <Link
+                        href="/services"
+                        className="block border-t border-brand-gray-200 px-4 py-2.5 text-sm font-bold text-brand-red hover:bg-brand-gray-50"
+                      >
+                        View All Services
+                      </Link>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="text-sm font-semibold uppercase tracking-wide text-white/85 transition-colors hover:text-brand-red"
+              >
+                {item.label}
+              </Link>
+            )
+          )}
         </nav>
 
         <div className="hidden items-center gap-5 lg:flex">
@@ -118,16 +170,55 @@ export function Header({
       {mobileOpen && (
         <div className="lg:hidden border-t border-white/10 bg-brand-black">
           <nav className="container-lux flex flex-col gap-1 py-4" aria-label="Mobile">
-            {navItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={() => setMobileOpen(false)}
-                className="rounded-md px-3 py-3 text-base font-semibold text-white/90 hover:bg-white/5 hover:text-brand-red"
-              >
-                {item.label}
-              </Link>
-            ))}
+            {headerNavItems.map((item) =>
+              item.href === "/services" && serviceLinks.length > 0 ? (
+                <div key={item.href}>
+                  <div className="flex items-center justify-between rounded-md px-3 py-3">
+                    <Link
+                      href={item.href}
+                      onClick={() => setMobileOpen(false)}
+                      className="text-base font-semibold text-white/90 hover:text-brand-red"
+                    >
+                      {item.label}
+                    </Link>
+                    <button
+                      type="button"
+                      onClick={() => setMobileServicesOpen((v) => !v)}
+                      aria-label="Toggle services submenu"
+                      aria-expanded={mobileServicesOpen}
+                      className="p-1 text-white/70"
+                    >
+                      <ChevronDown
+                        className={`h-4 w-4 transition-transform ${mobileServicesOpen ? "rotate-180" : ""}`}
+                      />
+                    </button>
+                  </div>
+                  {mobileServicesOpen && (
+                    <div className="ml-3 flex flex-col gap-0.5 border-l border-white/10 pl-3">
+                      {serviceLinks.map((s) => (
+                        <Link
+                          key={s.slug}
+                          href={`/services/${s.slug}`}
+                          onClick={() => setMobileOpen(false)}
+                          className="rounded-md px-3 py-2 text-sm font-semibold text-white/75 hover:bg-white/5 hover:text-brand-red"
+                        >
+                          {s.name}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setMobileOpen(false)}
+                  className="rounded-md px-3 py-3 text-base font-semibold text-white/90 hover:bg-white/5 hover:text-brand-red"
+                >
+                  {item.label}
+                </Link>
+              )
+            )}
             <div className="mt-3 flex flex-col gap-3 px-3">
               <Button href={primaryCtaUrl} size="md" className="w-full justify-center">
                 {primaryCtaText}

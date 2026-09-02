@@ -19,6 +19,10 @@ export interface ISiteSettings {
   primaryCtaUrl: string;
   footerText: string;
   businessDescription: string;
+  serviceAreas: string[];
+  googleReviewUrl: string;
+  googleReviewsBadgeText: string;
+  businessHours: string;
   seoDefaults: {
     title: string;
     description: string;
@@ -47,6 +51,10 @@ const SiteSettingsSchema = new Schema<ISiteSettings>(
     primaryCtaUrl: { type: String, default: "/contact" },
     footerText: { type: String, default: "" },
     businessDescription: { type: String, default: "" },
+    serviceAreas: { type: [String], default: [] },
+    googleReviewUrl: { type: String, default: "" },
+    googleReviewsBadgeText: { type: String, default: "" },
+    businessHours: { type: String, default: "" },
     seoDefaults: {
       title: { type: String, default: "" },
       description: { type: String, default: "" },

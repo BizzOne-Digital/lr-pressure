@@ -18,6 +18,7 @@ Wikimedia Commons under free-use licenses. Replace them as soon as real photos a
 | roof-beach-house.jpg | Beach House in New Jersey with asphalt shingles | Tallguy0187 | CC BY 3.0 |
 | window-detail-siding.jpg | Cropped detail (windows) of "New House Siding" | daryl_mitchell | CC BY-SA 2.0 |
 | window-detail-bay.jpg | Cropped detail (bay window) of "Beach House in New Jersey with asphalt shingles" | Tallguy0187 | CC BY 3.0 |
+| christmas-lights-house.jpg | Christmas Lighting 12-24-13a | inkknife_2000 (7.5 million views +) | CC BY-SA 2.0 |
 
 Source: commons.wikimedia.org. CC BY / CC BY-SA licenses require attribution if these specific
 files are ever used publicly beyond placeholder purposes — this file preserves that attribution.

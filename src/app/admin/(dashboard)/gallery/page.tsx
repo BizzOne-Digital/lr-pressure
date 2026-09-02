@@ -9,6 +9,7 @@ import { EmptyState } from "@/components/admin/EmptyState";
 import { TableSkeleton } from "@/components/admin/Skeleton";
 import { ImageUpload } from "@/components/admin/ImageUpload";
 import { useToast } from "@/components/admin/ToastProvider";
+import { PageIntroPanel } from "@/components/admin/PageIntroPanel";
 import { mediaUrl } from "@/lib/media-url";
 import { GALLERY_CATEGORIES } from "@/lib/constants";
 
@@ -121,7 +122,7 @@ export default function GalleryAdminPage() {
         <div>
           <h1 className="font-heading text-2xl font-bold text-brand-black">Gallery</h1>
           <p className="mt-1 text-sm text-brand-gray-600">
-            Manage the project photos shown in the homepage gallery.
+            Manage the project photos shown on the homepage and the full Gallery page.
           </p>
         </div>
         <button
@@ -133,6 +134,7 @@ export default function GalleryAdminPage() {
       </div>
 
       <div className="mt-6">
+        <PageIntroPanel pageKey="gallery" title="Gallery Page" />
         {loading ? (
           <TableSkeleton />
         ) : items.length === 0 ? (

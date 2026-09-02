@@ -8,6 +8,7 @@ import { EmptyState } from "@/components/admin/EmptyState";
 import { TableSkeleton } from "@/components/admin/Skeleton";
 import { ImageUpload } from "@/components/admin/ImageUpload";
 import { useToast } from "@/components/admin/ToastProvider";
+import { PageIntroPanel } from "@/components/admin/PageIntroPanel";
 
 interface Testimonial {
   _id: string;
@@ -121,7 +122,7 @@ export default function TestimonialsAdminPage() {
         <div>
           <h1 className="font-heading text-2xl font-bold text-brand-black">Testimonials</h1>
           <p className="mt-1 text-sm text-brand-gray-600">
-            Manage customer reviews shown on the homepage.
+            Manage customer reviews shown on the homepage and the full Reviews page.
           </p>
         </div>
         <button
@@ -133,6 +134,7 @@ export default function TestimonialsAdminPage() {
       </div>
 
       <div className="mt-6">
+        <PageIntroPanel pageKey="reviews" title="Reviews Page" />
         {loading ? (
           <TableSkeleton />
         ) : items.length === 0 ? (

@@ -3,6 +3,8 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { CheckCircle2, Phone } from "lucide-react";
 import { getServiceBySlug, getServices, getSiteSettings, getPageContent } from "@/lib/data";
+import { ProcessSteps } from "@/components/site/home/ProcessSteps";
+import { ServiceFAQ } from "@/components/site/ServiceFAQ";
 import { Icon } from "@/components/icon-map";
 import { Button } from "@/components/ui/Button";
 import { CTASection } from "@/components/site/home/CTASection";
@@ -28,12 +30,14 @@ export default async function ServiceDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const [service, allServices, settings, { content: homeContent }] = await Promise.all([
-    getServiceBySlug(slug),
-    getServices(),
-    getSiteSettings(),
-    getPageContent("home"),
-  ]);
+  const [service, allServices, settings, { content: homeContent }, { content: servicesContent }] =
+    await Promise.all([
+      getServiceBySlug(slug),
+      getServices(),
+      getSiteSettings(),
+      getPageContent("home"),
+      getPageContent("services"),
+    ]);
 
   if (!service) notFound();
 
@@ -122,6 +126,9 @@ export default async function ServiceDetailPage({
           </aside>
         </div>
       </section>
+
+      <ProcessSteps steps={homeContent.process} />
+      <ServiceFAQ items={servicesContent.faqs} />
 
       <CTASection section={homeContent.cta} phone={settings.phone} />
     </>

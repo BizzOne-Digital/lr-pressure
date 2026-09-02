@@ -46,6 +46,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
         primaryCtaUrl={settings.primaryCtaUrl}
         navItems={navItems}
         logoMediaId={settings.logoMediaId?.toString()}
+        serviceLinks={services.map((s) => ({ name: s.name, slug: s.slug }))}
       />
       <main className="flex-1">{children}</main>
       <Footer

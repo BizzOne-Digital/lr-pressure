@@ -50,6 +50,42 @@ export const serviceSchema = z.object({
   active: z.boolean().default(true),
 });
 
+/* ------------------------------ Service plans ------------------------------ */
+
+export const servicePlanSchema = z.object({
+  name: z.string().trim().min(2).max(120),
+  tagline: z.string().trim().max(300).default(""),
+  frequency: z.string().trim().max(60).default(""),
+  features: z.array(z.string().trim().max(200)).default([]),
+  priceLabel: z.string().trim().max(60).default("Contact for Pricing"),
+  imageMediaId: objectIdString,
+  highlighted: z.boolean().default(false),
+  order: z.number().int().default(0),
+  active: z.boolean().default(true),
+});
+
+/* --------------------------------- Projects -------------------------------- */
+
+export const projectSchema = z.object({
+  title: z.string().trim().min(2).max(150),
+  slug: z
+    .string()
+    .trim()
+    .min(2)
+    .max(150)
+    .regex(/^[a-z0-9]+(-[a-z0-9]+)*$/, "Slug must be lowercase letters, numbers, and hyphens"),
+  summary: z.string().trim().max(300).default(""),
+  description: z.string().trim().max(5000).default(""),
+  imageMediaId: objectIdString,
+  beforeImageMediaId: objectIdString,
+  afterImageMediaId: objectIdString,
+  location: z.string().trim().max(120).default(""),
+  serviceSlug: z.string().trim().max(150).default(""),
+  featured: z.boolean().default(false),
+  order: z.number().int().default(0),
+  active: z.boolean().default(true),
+});
+
 /* ------------------------------ Team members ------------------------------ */
 
 export const teamMemberSchema = z.object({
@@ -116,6 +152,10 @@ export const siteSettingsSchema = z.object({
   primaryCtaUrl: z.string().trim().max(300).default("/contact"),
   footerText: z.string().trim().max(1000).default(""),
   businessDescription: z.string().trim().max(2000).default(""),
+  serviceAreas: z.array(z.string().trim().max(100)).default([]),
+  googleReviewUrl: z.string().trim().max(300).default(""),
+  googleReviewsBadgeText: z.string().trim().max(80).default(""),
+  businessHours: z.string().trim().max(300).default(""),
   seoDefaults: z
     .object({
       title: z.string().trim().max(200).optional().default(""),
@@ -134,6 +174,7 @@ export const navigationSchema = z.object({
       href: z.string().trim().min(1).max(300),
       order: z.number().int().default(0),
       visible: z.boolean().default(true),
+      showInHeader: z.boolean().default(true),
     })
   ),
 });

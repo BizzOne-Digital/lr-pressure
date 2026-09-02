@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Phone } from "lucide-react";
+import { Phone, Star } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { mediaUrl } from "@/lib/media-url";
 import type { HomeContent } from "@/lib/content-schemas";
@@ -7,9 +7,10 @@ import type { HomeContent } from "@/lib/content-schemas";
 interface HeroProps {
   hero: HomeContent["hero"];
   phone: string;
+  googleBadge?: string;
 }
 
-export function Hero({ hero, phone }: HeroProps) {
+export function Hero({ hero, phone, googleBadge }: HeroProps) {
   const imgSrc = mediaUrl(hero.heroImageMediaId) || "/hero-fallback.jpg";
   const telHref = `tel:${phone.replace(/[^\d+]/g, "")}`;
   const badges = hero.trustBadges?.length
@@ -33,8 +34,20 @@ export function Hero({ hero, phone }: HeroProps) {
 
       <div className="container-lux relative z-10 flex min-h-[86vh] flex-col justify-center py-24 sm:min-h-[80vh]">
         <div className="max-w-3xl">
-          <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-brand-red/40 bg-brand-red/10 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.2em] text-brand-red-light">
-            Local &amp; Professional Exterior Cleaning
+          <div className="mb-5 flex flex-wrap items-center gap-3">
+            <div className="inline-flex items-center gap-2 rounded-full border border-brand-red/40 bg-brand-red/10 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.2em] text-brand-red-light">
+              Local &amp; Professional Exterior Cleaning
+            </div>
+            {googleBadge && (
+              <div className="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3.5 py-1.5 text-xs font-bold text-white">
+                <span className="flex gap-0.5 text-brand-red">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <Star key={i} className="h-3 w-3" fill="currentColor" />
+                  ))}
+                </span>
+                {googleBadge}
+              </div>
+            )}
           </div>
           <h1 className="text-balance font-heading text-4xl font-extrabold leading-[1.05] text-white sm:text-5xl lg:text-6xl">
             {hero.heading || "Dirty Windows, House, Driveway, or Roof?"}

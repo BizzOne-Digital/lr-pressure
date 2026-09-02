@@ -75,13 +75,26 @@ export default async function ContactPage() {
               )}
               <div className="flex items-start gap-3">
                 <Clock className="mt-0.5 h-5 w-5 shrink-0 text-brand-red" />
-                <span className="font-semibold">We respond to every request promptly</span>
+                <span className="font-semibold">
+                  {settings.businessHours || "We respond to every request promptly"}
+                </span>
               </div>
 
               <div className="border-t border-white/10 pt-6 text-sm text-white/60">
                 Prefer to talk it through? Call us directly and we&apos;ll walk you through
                 pricing and scheduling.
               </div>
+
+              {settings.googleReviewUrl && (
+                <a
+                  href={settings.googleReviewUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-2 inline-flex w-full items-center justify-center rounded-md bg-brand-red px-5 py-3 text-sm font-bold text-white hover:bg-brand-red-dark"
+                >
+                  Leave Us a Review
+                </a>
+              )}
             </div>
           </div>
         </div>

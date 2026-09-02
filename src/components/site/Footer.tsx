@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Phone, Mail, MapPin } from "lucide-react";
+import { Phone, Mail, MapPin, Clock } from "lucide-react";
 import { FacebookIcon, InstagramIcon, YoutubeIcon } from "@/components/social-icons";
 import type { ISiteSettings } from "@/models/SiteSettings";
 
@@ -17,10 +17,15 @@ interface FooterProps {
 export function Footer({ settings, navItems, serviceLinks }: FooterProps) {
   const year = new Date().getFullYear();
   const telHref = `tel:${settings.phone?.replace(/[^\d+]/g, "")}`;
+  const areas = settings.serviceAreas || [];
 
   return (
     <footer className="bg-brand-black text-white/80">
-      <div className="container-lux grid gap-10 py-16 sm:grid-cols-2 lg:grid-cols-4 lg:py-20">
+      <div
+        className={`container-lux grid gap-10 py-16 sm:grid-cols-2 lg:py-20 ${
+          areas.length > 0 ? "lg:grid-cols-5" : "lg:grid-cols-4"
+        }`}
+      >
         <div>
           <div className="font-heading text-xl font-bold text-white">
             {settings.businessName.split(" ").map((word, i) =>
@@ -128,8 +133,27 @@ export function Footer({ settings, navItems, serviceLinks }: FooterProps) {
                 {settings.address}
               </li>
             )}
+            {settings.businessHours && (
+              <li className="flex items-start gap-2.5 text-white/65">
+                <Clock className="mt-0.5 h-4 w-4 shrink-0 text-brand-red" />
+                {settings.businessHours}
+              </li>
+            )}
           </ul>
         </div>
+
+        {areas.length > 0 && (
+          <div>
+            <h3 className="text-sm font-bold uppercase tracking-wider text-white">Service Areas</h3>
+            <ul className="mt-4 space-y-2.5 text-sm">
+              {areas.map((area) => (
+                <li key={area} className="text-white/65">
+                  {area}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
 
       <div className="border-t border-white/10">
@@ -143,6 +167,9 @@ export function Footer({ settings, navItems, serviceLinks }: FooterProps) {
             </Link>
             <Link href="/terms" className="hover:text-brand-red">
               Terms
+            </Link>
+            <Link href="/sitemap" className="hover:text-brand-red">
+              Sitemap
             </Link>
           </div>
         </div>

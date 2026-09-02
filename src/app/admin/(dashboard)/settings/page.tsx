@@ -18,12 +18,17 @@ interface Settings {
   primaryCtaUrl: string;
   footerText: string;
   businessDescription: string;
+  serviceAreas: string[];
+  googleReviewUrl: string;
+  googleReviewsBadgeText: string;
+  businessHours: string;
   seoDefaults: { title?: string; description?: string; ogImageMediaId?: string };
 }
 
 export default function SettingsPage() {
   const { showToast } = useToast();
   const [settings, setSettings] = useState<Settings | null>(null);
+  const [serviceAreasText, setServiceAreasText] = useState("");
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
 
@@ -31,7 +36,10 @@ export default function SettingsPage() {
     fetch("/api/admin/settings")
       .then((r) => r.json())
       .then((json) => {
-        if (json.success) setSettings(json.data);
+        if (json.success) {
+          setSettings(json.data);
+          setServiceAreasText((json.data.serviceAreas || []).join("\n"));
+        }
       })
       .finally(() => setLoading(false));
   }, []);
@@ -40,15 +48,23 @@ export default function SettingsPage() {
     if (!settings) return;
     setSaving(true);
     try {
+      const payload = {
+        ...settings,
+        serviceAreas: serviceAreasText
+          .split("\n")
+          .map((s) => s.trim())
+          .filter(Boolean),
+      };
       const res = await fetch("/api/admin/settings", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(settings),
+        body: JSON.stringify(payload),
       });
       const json = await res.json();
       if (json.success) {
         showToast("success", "Site settings saved.");
         setSettings(json.data);
+        setServiceAreasText((json.data.serviceAreas || []).join("\n"));
       } else {
         showToast("error", json.error || "Failed to save settings.");
       }
@@ -133,6 +149,15 @@ export default function SettingsPage() {
             value={settings.address}
             onChange={(v) => setSettings({ ...settings, address: v })}
           />
+          <TextField
+            label="Business Hours"
+            value={settings.businessHours}
+            onChange={(v) => setSettings({ ...settings, businessHours: v })}
+          />
+          <p className="mt-1.5 text-xs text-brand-gray-500">
+            Shown on the Contact page and in the footer only once filled in, e.g. &ldquo;Mon–Sat,
+            8:00 AM – 6:00 PM&rdquo;. Leave blank to show a generic response-time message instead.
+          </p>
         </section>
 
         <section className="rounded-lg border border-brand-gray-200 bg-white p-6">
@@ -190,6 +215,42 @@ export default function SettingsPage() {
               }
             />
           </div>
+        </section>
+
+        <section className="rounded-lg border border-brand-gray-200 bg-white p-6">
+          <h2 className="font-heading text-base font-bold text-brand-black">Service Areas & Google Reviews</h2>
+          <p className="mt-1 text-sm text-brand-gray-600">
+            These only appear on the site once filled in — nothing is shown or claimed until you
+            enter real information here.
+          </p>
+          <div className="mt-4">
+            <label className="mb-1.5 block text-sm font-semibold text-brand-black">
+              Towns / Areas Served (one per line)
+            </label>
+            <textarea
+              rows={5}
+              value={serviceAreasText}
+              onChange={(e) => setServiceAreasText(e.target.value)}
+              placeholder={"Charlotte, NC\nConcord, NC\nMatthews, NC"}
+              className="w-full rounded-md border border-brand-gray-200 px-3.5 py-2.5 text-sm focus:border-brand-red focus:outline-none"
+            />
+          </div>
+          <div className="mt-4 grid gap-4 sm:grid-cols-2">
+            <TextField
+              label="Google Business Profile / Review URL"
+              value={settings.googleReviewUrl}
+              onChange={(v) => setSettings({ ...settings, googleReviewUrl: v })}
+            />
+            <TextField
+              label="Google Rating Badge Text"
+              value={settings.googleReviewsBadgeText}
+              onChange={(v) => setSettings({ ...settings, googleReviewsBadgeText: v })}
+            />
+          </div>
+          <p className="mt-1.5 text-xs text-brand-gray-500">
+            Rating badge is free text shown exactly as typed, e.g. &ldquo;5.0 stars on
+            Google&rdquo; — only enter this once you have a real, current rating to show.
+          </p>
         </section>
       </div>
     </div>
