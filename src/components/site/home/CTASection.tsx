@@ -30,7 +30,7 @@ export function CTASection({ section, phone }: CTAProps) {
               "Request your free, no-obligation quote today and see the LR Pressure Washing difference."}
           </p>
           <div className="mt-9 flex flex-wrap items-center justify-center gap-4">
-            <Button href={section.buttonUrl || "/contact"} size="lg">
+            <Button href={section.buttonUrl || "/contact"} size="lg" variant="light">
               {section.buttonText || "Get a Free Quote"}
             </Button>
             <Button

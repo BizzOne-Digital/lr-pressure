@@ -8,17 +8,17 @@ export function Benefits({ benefits }: { benefits: HomeContent["benefits"] }) {
   const sorted = [...benefits].sort((a, b) => a.order - b.order);
 
   return (
-    <section className="bg-white py-20 lg:py-28">
+    <section className="bg-brand-cream py-20 lg:py-28">
       <div className="container-lux">
         <SectionHeading
           eyebrow="Why Homeowners Choose Us"
           title="Built On Trust, Backed By Results"
         />
-        <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {sorted.map((benefit, i) => (
             <Reveal key={benefit.title} delay={i * 0.08}>
-              <div className="group h-full rounded-lg border border-brand-gray-200 bg-brand-cream p-7 transition-all duration-300 hover:-translate-y-1 hover:border-brand-red/30 hover:shadow-xl hover:shadow-black/5">
-                <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-md bg-brand-black text-white transition-colors duration-300 group-hover:bg-brand-red">
+              <div className="group h-full rounded-[1.75rem] border border-brand-gray-200 bg-white p-8 text-left shadow-md shadow-black/5 transition-all duration-300 hover:-translate-y-1.5 hover:border-brand-red/40 hover:shadow-xl hover:shadow-black/10">
+                <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-full bg-brand-red text-white transition-transform duration-300 group-hover:scale-110">
                   <Icon name={benefit.icon} className="h-6 w-6" />
                 </div>
                 <h3 className="font-heading text-lg font-bold text-brand-black">

@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
-import { getGalleryItems, getPageContent } from "@/lib/data";
+import { getGalleryItems, getPageContent, getSiteSettings } from "@/lib/data";
 import { PageHero } from "@/components/site/PageHero";
 import { GalleryGrid } from "@/components/site/GalleryGrid";
+import { CTASection } from "@/components/site/home/CTASection";
 
 export async function generateMetadata(): Promise<Metadata> {
   const { seo, content } = await getPageContent("gallery");
@@ -12,9 +13,11 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function GalleryPage() {
-  const [{ content }, galleryItems] = await Promise.all([
+  const [{ content }, galleryItems, settings, { content: homeContent }] = await Promise.all([
     getPageContent("gallery"),
     getGalleryItems(),
+    getSiteSettings(),
+    getPageContent("home"),
   ]);
 
   // GalleryGrid is a Client Component (interactive category filtering), so it
@@ -39,6 +42,8 @@ export default async function GalleryPage() {
           <GalleryGrid items={items} />
         </div>
       </section>
+
+      <CTASection section={homeContent.cta} phone={settings.phone} />
     </>
   );
 }

@@ -17,7 +17,7 @@ export function Testimonials({ items }: { items: ITestimonial[] }) {
             const photo = mediaUrl(t.photoMediaId?.toString());
             return (
               <Reveal key={t._id.toString()} delay={i * 0.07}>
-                <div className="flex h-full flex-col rounded-lg bg-white p-7 shadow-md shadow-black/5">
+                <div className="flex h-full flex-col rounded-[1.75rem] bg-white p-7 shadow-md shadow-black/5">
                   <div className="flex gap-0.5 text-brand-red">
                     {Array.from({ length: 5 }).map((_, idx) => (
                       <Star

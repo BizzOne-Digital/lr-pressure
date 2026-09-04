@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { getPageContent, getSiteSettings } from "@/lib/data";
+import { getPageContent, getServices, getSiteSettings, getTeamMembers } from "@/lib/data";
 import { PageHero } from "@/components/site/PageHero";
 import { Icon } from "@/components/icon-map";
+import { ServicesPreview } from "@/components/site/home/ServicesPreview";
+import { TeamPreview } from "@/components/site/home/TeamPreview";
 import { CTASection } from "@/components/site/home/CTASection";
 import { mediaUrl } from "@/lib/media-url";
 
@@ -15,10 +17,12 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function AboutPage() {
-  const [{ content }, settings, { content: homeContent }] = await Promise.all([
+  const [{ content }, settings, { content: homeContent }, services, teamMembers] = await Promise.all([
     getPageContent("about"),
     getSiteSettings(),
     getPageContent("home"),
+    getServices({ onlyFeatured: false }),
+    getTeamMembers(),
   ]);
 
   const img = mediaUrl(content.imageMediaId) || "/image-fallback.jpg";
@@ -80,6 +84,9 @@ export default async function AboutPage() {
           </div>
         )}
       </section>
+
+      <ServicesPreview services={services} />
+      <TeamPreview members={teamMembers} />
 
       <CTASection section={homeContent.cta} phone={settings.phone} />
     </>

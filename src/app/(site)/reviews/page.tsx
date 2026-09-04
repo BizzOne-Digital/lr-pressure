@@ -29,6 +29,19 @@ export default async function ReviewsPage() {
         description={content.intro || "See what our customers have to say about our work."}
       />
 
+      {settings.googleReviewsBadgeText && (
+        <div className="flex justify-center bg-white py-8">
+          <div className="inline-flex items-center gap-2 rounded-full border border-brand-gray-200 bg-brand-cream px-5 py-2.5 text-sm font-bold text-brand-black">
+            <span className="flex gap-0.5 text-brand-red">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <Star key={i} className="h-4 w-4" fill="currentColor" />
+              ))}
+            </span>
+            {settings.googleReviewsBadgeText}
+          </div>
+        </div>
+      )}
+
       <section className="bg-brand-cream py-20 lg:py-28">
         <div className="container-lux">
           {testimonials.length > 0 ? (
