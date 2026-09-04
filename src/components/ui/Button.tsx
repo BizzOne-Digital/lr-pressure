@@ -11,11 +11,9 @@ const base =
 const variants: Record<Variant, string> = {
   primary:
     "bg-brand-black text-white hover:bg-brand-charcoal-2 shadow-[0_8px_30px_-8px_rgba(4,6,8,0.5)] hover:shadow-[0_8px_30px_-4px_rgba(4,6,8,0.65)]",
-  // Used for the header CTA, which sits directly on the black header bar —
-  // the true brand red doesn't have enough contrast there on its own, so
-  // this uses the brighter -light tint and deepens to the true red on hover.
+  // Used for the header CTA, which sits on the (now white) header bar.
   secondary:
-    "bg-brand-red-light text-white hover:bg-brand-red",
+    "bg-brand-red text-white hover:bg-brand-red-dark",
   outline:
     "border-2 border-brand-black text-brand-black hover:bg-brand-black hover:text-white",
   ghost: "text-brand-black hover:text-brand-red",

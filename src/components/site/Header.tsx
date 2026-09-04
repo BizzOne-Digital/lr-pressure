@@ -64,10 +64,8 @@ export function Header({
 
   return (
     <header
-      className={`sticky top-0 z-50 w-full transition-all duration-300 ${
-        scrolled
-          ? "bg-brand-black/95 backdrop-blur-md shadow-lg shadow-black/20"
-          : "bg-brand-black"
+      className={`sticky top-0 z-50 w-full border-b border-brand-gray-200 transition-all duration-300 ${
+        scrolled ? "bg-white/95 backdrop-blur-md shadow-lg shadow-black/10" : "bg-white"
       }`}
     >
       <div className="container-lux flex h-16 items-center justify-between lg:h-20">
@@ -82,8 +80,8 @@ export function Header({
               priority
             />
           ) : (
-            <span className="font-heading text-lg font-bold text-white lg:text-xl">
-              LR <span className="text-brand-red-light">PRESSURE WASHING</span>
+            <span className="font-heading text-lg font-bold text-brand-black lg:text-xl">
+              LR <span className="text-brand-red">PRESSURE WASHING</span>
             </span>
           )}
         </Link>
@@ -99,14 +97,14 @@ export function Header({
               >
                 <Link
                   href={item.href}
-                  className="flex items-center gap-1 text-sm font-semibold uppercase tracking-wide text-white/85 transition-colors hover:text-brand-red-light"
+                  className="flex items-center gap-1 text-sm font-semibold uppercase tracking-wide text-brand-black/80 transition-colors hover:text-brand-red"
                 >
                   {item.label}
                   <ChevronDown className="h-3.5 w-3.5" aria-hidden="true" />
                 </Link>
                 {servicesOpen && (
                   <div className="absolute left-1/2 top-full w-64 -translate-x-1/2 pt-3">
-                    <div className="overflow-hidden rounded-lg bg-white shadow-xl shadow-black/20">
+                    <div className="overflow-hidden rounded-lg bg-white shadow-xl shadow-black/20 ring-1 ring-brand-gray-200">
                       {serviceLinks.map((s) => (
                         <Link
                           key={s.slug}
@@ -130,7 +128,7 @@ export function Header({
               <Link
                 key={item.href}
                 href={item.href}
-                className="text-sm font-semibold uppercase tracking-wide text-white/85 transition-colors hover:text-brand-red-light"
+                className="text-sm font-semibold uppercase tracking-wide text-brand-black/80 transition-colors hover:text-brand-red"
               >
                 {item.label}
               </Link>
@@ -141,9 +139,9 @@ export function Header({
         <div className="hidden items-center gap-5 lg:flex">
           <a
             href={telHref}
-            className="flex items-center gap-2 text-sm font-bold text-white transition-colors hover:text-brand-red-light"
+            className="flex items-center gap-2 text-sm font-bold text-brand-black transition-colors hover:text-brand-red"
           >
-            <Phone className="h-4 w-4 text-brand-red-light" aria-hidden="true" />
+            <Phone className="h-4 w-4 text-brand-red" aria-hidden="true" />
             {phone}
           </a>
           <Button href={primaryCtaUrl} size="sm" variant="secondary">
@@ -160,7 +158,7 @@ export function Header({
             aria-label={mobileOpen ? "Close menu" : "Open menu"}
             aria-expanded={mobileOpen}
             onClick={() => setMobileOpen((v) => !v)}
-            className="rounded-md p-2 text-white"
+            className="rounded-md p-2 text-brand-black"
           >
             {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </button>
@@ -168,7 +166,7 @@ export function Header({
       </div>
 
       {mobileOpen && (
-        <div className="lg:hidden border-t border-white/10 bg-brand-black">
+        <div className="lg:hidden border-t border-brand-gray-200 bg-white">
           <nav className="container-lux flex flex-col gap-1 py-4" aria-label="Mobile">
             {headerNavItems.map((item) =>
               item.href === "/services" && serviceLinks.length > 0 ? (
@@ -177,7 +175,7 @@ export function Header({
                     <Link
                       href={item.href}
                       onClick={() => setMobileOpen(false)}
-                      className="text-base font-semibold text-white/90 hover:text-brand-red-light"
+                      className="text-base font-semibold text-brand-black hover:text-brand-red"
                     >
                       {item.label}
                     </Link>
@@ -186,7 +184,7 @@ export function Header({
                       onClick={() => setMobileServicesOpen((v) => !v)}
                       aria-label="Toggle services submenu"
                       aria-expanded={mobileServicesOpen}
-                      className="p-1 text-white/70"
+                      className="p-1 text-brand-gray-600"
                     >
                       <ChevronDown
                         className={`h-4 w-4 transition-transform ${mobileServicesOpen ? "rotate-180" : ""}`}
@@ -194,13 +192,13 @@ export function Header({
                     </button>
                   </div>
                   {mobileServicesOpen && (
-                    <div className="ml-3 flex flex-col gap-0.5 border-l border-white/10 pl-3">
+                    <div className="ml-3 flex flex-col gap-0.5 border-l border-brand-gray-200 pl-3">
                       {serviceLinks.map((s) => (
                         <Link
                           key={s.slug}
                           href={`/services/${s.slug}`}
                           onClick={() => setMobileOpen(false)}
-                          className="rounded-md px-3 py-2 text-sm font-semibold text-white/75 hover:bg-white/5 hover:text-brand-red-light"
+                          className="rounded-md px-3 py-2 text-sm font-semibold text-brand-black/75 hover:bg-brand-gray-50 hover:text-brand-red"
                         >
                           {s.name}
                         </Link>
@@ -213,7 +211,7 @@ export function Header({
                   key={item.href}
                   href={item.href}
                   onClick={() => setMobileOpen(false)}
-                  className="rounded-md px-3 py-3 text-base font-semibold text-white/90 hover:bg-white/5 hover:text-brand-red-light"
+                  className="rounded-md px-3 py-3 text-base font-semibold text-brand-black hover:bg-brand-gray-50 hover:text-brand-red"
                 >
                   {item.label}
                 </Link>

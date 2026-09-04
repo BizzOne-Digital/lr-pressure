@@ -11,7 +11,8 @@
     "seed:more": "tsx scripts/add-more-content.ts",
     "update:logo": "tsx scripts/update-logo.ts",
     "ensure:settings": "tsx scripts/ensure-site-settings.ts",
-    "reset-admin": "tsx scripts/reset-admin.ts"
+    "reset-admin": "tsx scripts/reset-admin.ts",
+    "ensure:services": "tsx scripts/ensure-all-services.ts"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",
